@@ -1,3 +1,3 @@
 # NeoVim~! 
 
-Configration less than text-editor
+Less than text-editor
