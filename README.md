@@ -1,4 +1,4 @@
 # NeoVim~! 
 
 
-Less than text-editor.
+Less than text-editor..
