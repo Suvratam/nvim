@@ -41,7 +41,10 @@ Plugin 'dracula/vim', { 'name': 'dracula' }
 Plugin 'neoclide/coc.nvim',{'do': 'yarn install --frozen-lockfile'}
 Plugin 'joshdick/onedark.vim'
 Plugin 'rafi/awesome-vim-colorschemes'
-
+Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plugin 'ryanoasis/vim-devicons'
+Plugin 'konpa/devicon'
+Plugin 'lambdalisue/glyph-palette.vim'
 call vundle#end()
 filetype plugin indent on    " required
 
@@ -78,13 +81,14 @@ set cursorline
 set sidescroll=1
 set sidescrolloff=3
 set statusline+=\ %r
+set encoding=UTF-8
 
 "My Own Plugin
 
 let g:nerdtree_tabs_autofind=0
 nnoremap <SPACE> <Nop>
 nnoremap <C-f> <Nop>
-nnoremap <C-z> <Nop>
+nnoremap <C-z> :qa<cr>
 let mapleader =" "
 
 nnoremap <leader>z :vsp ~/.config/nvim/init.vim<CR>
@@ -92,7 +96,7 @@ nnoremap <leader>zz :vsp ~/.vimrc<CR>
 nnoremap <silent> <leader><Up> :resize +5<CR> 
 noremap <silent> <leader><Down> :resize -5<CR>
 nnoremap <leader><Left> :vertical resize +6<CR>
-nnoremap <leader><Right> :vertical resize -4<CR>
+nnoremap <leader><Right> :vertical resize -6<CR>
 map <A-n> <plug>NERDTreeTabsToggle<CR>
 nnoremap <silent> <leader>i :DartFmt<CR>
 nnoremap <C-J> <C-W><C-J>
@@ -102,8 +106,8 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <C-S> <C-W><C-S>
 nnoremap <C-y> "+y
 vnoremap <C-y> "+y
-nnoremap <C-p> "+gP
-vnoremap <C-p> "+gP
+nnoremap <D-v> "+gP
+vnoremap <D-v> "+gP
 nnoremap <leader>v :wincmd v<CR>
 map <C-t> :new<bar> :resize 12<bar> :terminal<cr>
 
@@ -112,6 +116,17 @@ nnoremap tk :tabnext<CR>
 nnoremap tj :tabprev<CR>
 nnoremap th :tabfirst<CR>
 nnoremap tl :tablast<CR> 
+
+augroup my-glyph-palette
+  autocmd! *
+  autocmd FileType fern call glyph_palette#apply()
+  autocmd FileType nerdtree,startify call glyph_palette#apply()
+augroup END
+
+"This will remove not only the arrows, but a single space following them, shifting the whole nerdtree two character positions to the left.
+
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
 
 if has('nvim')
   tnoremap <Esc> <C-\><C-n>
@@ -172,6 +187,22 @@ let g:rbpt_loadcmd_toggle = 0
 "au Syntax * RainbowParenthesesLoadSquare
 "au Syntax * RainbowParenthesesLoadBraces
 
+"Git Maping syntax
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+                \ 'Modified'  :'✹',
+                \ 'Staged'    :'✚',
+                \ 'Untracked' :'✭',
+                \ 'Renamed'   :'➜',
+                \ 'Unmerged'  :'═',
+                \ 'Deleted'   :'✖',
+                \ 'Dirty'     :'✗',
+                \ 'Ignored'   :'☒',
+                \ 'Clean'     :'✔︎',
+                \ 'Unknown'   :'?',
+                \ }
+let g:NERDTreeGitStatusUseNerdFonts = 1
+let g:NERDTreeGitStatusShowIgnored = 1
+let g:NERDTreeGitStatusUntrackedFilesMode = 'all'
 "ENABLE FLUTTERMENU
 
 "call FlutterMenu()
@@ -207,7 +238,75 @@ let g:lsc_auto_map = v:true
 vmap \\ <plug>NERDCommenterToggle
 nmap \\ <plug>NERDCommenterToggle
 
+"NERDTREE HIGHLIGHT
+
+let g:WebDevIconsDisableDefaultFolderSymbolColorFromNERDTreeDir = 1
+let g:WebDevIconsDisableDefaultFileSymbolColorFromNERDTreeFile = 1
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
+let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
+
+let g:DevIconsDefaultFolderOpenSymbol=' ' " symbol for open folder (f07c)
+let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol=' ' " symbol for closed folder (f07b)
+
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
+let g:DevIconsEnableFolderExtensionPatternMatching = 1
+
+let g:DevIconsDefaultFolderOpenSymbol=' '
+let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol=' '
+let g:NERDTreeLimitedSyntax = 1
+let g:NERDTreeSyntaxDisableDefaultExtensions = 1
+let g:NERDTreeSyntaxDisableDefaultExactMatches = 1
+let g:NERDTreeSyntaxDisableDefaultPatternMatches = 1
+let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'cpp', 'php', 'rb', 'js', 'css', 'html'] " enabled extensions with default colors
+let g:NERDTreeSyntaxEnabledExactMatches = ['node_modules', 'favicon.ico'] " enabled exact matches with default colors
+" Custom icons for file extensions
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {} " needed
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['js'] = 'JS'
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['ts'] = 'ﯤ'
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['json'] = '❰..❱'
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['dart'] = '🖺 '
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['lock'] = '🔒'
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['yaml'] = ' ' 
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['iml'] = '🔥' 
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['jpeg,JPG,png'] = '🖻 '
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['java'] = '☕'
+
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols = {} " needed
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.test.ts'] = 'ﭧ'
+" Custom icons for specific filenames
+let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols = {} " needed
+let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols['ormconfig.js'] = ' '
+let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols['.env'] = 'ﭩ'
+let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols['.editorconfig'] = ' '
+let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols['.npmrc'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols['src'] = ''
+" Custom color for extensions
+let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+" you can add these colors to your .vimrc to help customizing
+let s:brown = "905532"
+let s:aqua =  "3AFFDB"
+let s:blue = "689FB6"
+let s:darkBlue = "44788E"
+let s:purple = "834F79"
+let s:lightPurple = "834F79"
+let s:red = "AE403F"
+let s:beige = "F5C06F"
+let s:yellow = "F09F17"
+let s:orange = "D4843E"
+let s:darkOrange = "F16529"
+let s:pink = "CB6F6F"
+let s:salmon = "EE6E73"
+let s:green = "8FAA54"
+let s:lightGreen = "31B53E"
+let s:white = "FFFFFF"
+let s:rspec_red = 'FE405F'
+let s:git_orange = 'F54D27'
+
 "CocPlugins KeyMapings 
+
 " TextEdit might fail if hidden is not set.
 set hidden
 
