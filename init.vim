@@ -10,7 +10,6 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'git://git.wincent.com/command-t.git'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'dart-lang/dart-vim-plugin'
-Plugin 'scrooloose/nerdtree'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'sheerun/vim-polyglot'
@@ -43,8 +42,7 @@ Plugin 'joshdick/onedark.vim'
 Plugin 'rafi/awesome-vim-colorschemes'
 Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plugin 'ryanoasis/vim-devicons'
-Plugin 'konpa/devicon'
-Plugin 'lambdalisue/glyph-palette.vim'
+Plugin 'scrooloose/nerdtree', { 'commit': '8d005db' }
 call vundle#end()
 filetype plugin indent on    " required
 
@@ -97,7 +95,7 @@ nnoremap <silent> <leader><Up> :resize +5<CR>
 noremap <silent> <leader><Down> :resize -5<CR>
 nnoremap <leader><Left> :vertical resize +6<CR>
 nnoremap <leader><Right> :vertical resize -6<CR>
-map <A-n> <plug>NERDTreeTabsToggle<CR>
+map <C-n> <plug>NERDTreeTabsToggle<CR>
 nnoremap <silent> <leader>i :DartFmt<CR>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -116,12 +114,6 @@ nnoremap tk :tabnext<CR>
 nnoremap tj :tabprev<CR>
 nnoremap th :tabfirst<CR>
 nnoremap tl :tablast<CR> 
-
-augroup my-glyph-palette
-  autocmd! *
-  autocmd FileType fern call glyph_palette#apply()
-  autocmd FileType nerdtree,startify call glyph_palette#apply()
-augroup END
 
 "This will remove not only the arrows, but a single space following them, shifting the whole nerdtree two character positions to the left.
 
@@ -188,18 +180,13 @@ let g:rbpt_loadcmd_toggle = 0
 "au Syntax * RainbowParenthesesLoadBraces
 
 "Git Maping syntax
-let g:NERDTreeGitStatusIndicatorMapCustom = {
-                \ 'Modified'  :'✹',
-                \ 'Staged'    :'✚',
-                \ 'Untracked' :'✭',
-                \ 'Renamed'   :'➜',
-                \ 'Unmerged'  :'═',
-                \ 'Deleted'   :'✖',
-                \ 'Dirty'     :'✗',
-                \ 'Ignored'   :'☒',
-                \ 'Clean'     :'✔︎',
-                \ 'Unknown'   :'?',
-                \ }
+let g:gitgutter_sign_added = '✚ '
+let g:gitgutter_sign_modified = '✹ '
+let g:gitgutter_sign_removed = '-'
+let g:gitgutter_sign_removed_first_line = '-'
+let g:gitgutter_sign_modified_removed = '-'
+
+
 let g:NERDTreeGitStatusUseNerdFonts = 1
 let g:NERDTreeGitStatusShowIgnored = 1
 let g:NERDTreeGitStatusUntrackedFilesMode = 'all'
@@ -207,7 +194,7 @@ let g:NERDTreeGitStatusUntrackedFilesMode = 'all'
 
 "call FlutterMenu()
 
-nnoremap <A-f> :FlutterRun
+nnoremap <A-f> :FlutterRun<cr>
 nnoremap <leader>fq :FlutterQuit<cr>
 nnoremap <leader>ff :FlutterHotReload<cr>
 nnoremap <leader>fr :FlutterHotRestart<cr>
@@ -249,10 +236,9 @@ let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
 let g:DevIconsDefaultFolderOpenSymbol=' ' " symbol for open folder (f07c)
 let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol=' ' " symbol for closed folder (f07b)
 
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:DevIconsEnableFoldersOpenClose = 1
 let g:DevIconsEnableFolderExtensionPatternMatching = 1
-
+let g:NERDTreeFileExtensionHighlightFullName = 1
 let g:DevIconsDefaultFolderOpenSymbol=' '
 let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol=' '
 let g:NERDTreeLimitedSyntax = 1
@@ -270,8 +256,12 @@ let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['dart'] = '🖺 '
 let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['lock'] = '🔒'
 let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['yaml'] = ' ' 
 let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['iml'] = '🔥' 
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['jpeg,JPG,png'] = '🖻 '
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['jpeg'] = '🖻 '
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['png'] = '🖻 '
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['JPG'] = '🖻 '
 let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['java'] = '☕'
+highlight Directory ctermfg=cyan
+let g:WebDevIconsOS = 'Darwin'
 
 let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols = {} " needed
 let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.test.ts'] = 'ﭧ'
